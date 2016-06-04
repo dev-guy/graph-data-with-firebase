@@ -30,7 +30,7 @@ define(['d3', 'jquery', 'backbone'], function(d3, $, Backbone) {
       .attr("pointer-events", "all");
     vis = outer
       .append('svg:g')
-      .call(d3.behavior.zoom().on("zoom", rescale))
+      .call(d3.behavior.zoom(), rescale)
       .on("dblclick.zoom", null)
       .append('svg:g')
       .on("mousemove", mousemove)
@@ -77,7 +77,7 @@ define(['d3', 'jquery', 'backbone'], function(d3, $, Backbone) {
   function mousedown() {
     if (!mousedown_node && !mousedown_link) {
       // allow panning if nothing is selected
-      vis.call(d3.behavior.zoom().on("zoom"), rescale);
+      vis.call(d3.behavior.zoom(), rescale);
       return;
     }
   }
@@ -89,8 +89,8 @@ define(['d3', 'jquery', 'backbone'], function(d3, $, Backbone) {
     drag_line
         .attr("x1", mousedown_node.x)
         .attr("y1", mousedown_node.y)
-        .attr("x2", d3.svg.mouse(this)[0])
-        .attr("y2", d3.svg.mouse(this)[1]);
+        .attr("x2", d3.mouse(this)[0])
+        .attr("y2", d3.mouse(this)[1]);
 
   }
 
@@ -185,7 +185,7 @@ define(['d3', 'jquery', 'backbone'], function(d3, $, Backbone) {
         .on("mousedown", 
           function(d) { 
             // disable zoom
-            vis.call(d3.behavior.zoom().on("zoom"), null);
+            vis.call(d3.behavior.zoom(), null);
 
             mousedown_node = d;
             if (mousedown_node == selected_node) selected_node = null;
@@ -225,7 +225,7 @@ define(['d3', 'jquery', 'backbone'], function(d3, $, Backbone) {
               selected_node = null;
 
               // enable zoom
-              vis.call(d3.behavior.zoom().on("zoom"), rescale);
+              vis.call(d3.behavior.zoom(), rescale);
               redraw();
             } 
           })
